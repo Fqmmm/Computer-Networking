@@ -2,6 +2,10 @@
 
 #include "byte_stream.hh"
 
+#include <map>
+#include <optional>
+#include <utility>
+
 class Reassembler
 {
 public:
@@ -41,5 +45,8 @@ public:
   const Writer& writer() const { return output_.writer(); }
 
 private:
-  ByteStream output_; // the Reassembler writes to this ByteStream
+  ByteStream output_;                          // 已按序重组的数据，供上层读取
+  std::map<uint64_t, std::string> pending_ {}; // 缓存乱序到达的字节
+  uint64_t pending_bytes_ {};                  // 缓存中的有效字节数
+  std::optional<uint64_t> end_index_ {};       // 完整字节流的结束索引
 };
