@@ -4,6 +4,8 @@
 #include "tcp_receiver_message.hh"
 #include "tcp_sender_message.hh"
 
+#include <optional>
+
 class TCPReceiver
 {
 public:
@@ -27,4 +29,5 @@ public:
 
 private:
   Reassembler reassembler_;
+  std::optional<Wrap32> isn_ {}; // 第一个 SYN 的初始序列号，若为空表示尚未建立序列号基准
 };
